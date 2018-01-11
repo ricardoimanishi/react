@@ -47,7 +47,7 @@ class ListContacts extends Component {
 
     //efetua o filtro caso a variavel query tenha conteudo
     if (query) {
-      //verificar documentação 
+      //verificar documentação
       const match = new RegExp(escapeRegExp(query), 'i')
       showingContacts = contacts.filter((contact) => match.test(contact.name))
     } else {
@@ -67,6 +67,11 @@ class ListContacts extends Component {
             value={this.state.query}
             onChange={(event) => this.updateQuery(event.target.value)}
           />
+          <a
+            href="#create"
+            onClick={this.props.onNavigate}
+            className="add-contact"
+          >Add Contact</a>
         </div>
 
         {showingContacts.length !== contacts.length && (
