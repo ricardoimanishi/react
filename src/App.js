@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ListContacts from './ListContacts'
+import CreateContact from './CreateContact'
 import * as ContactsAPI from './utils/ContactsAPI'
 
 class App extends Component {
@@ -7,6 +8,7 @@ class App extends Component {
   //Declarando os parametros
   //parametro state contendo um array com os dados dos contatos
   state = {
+    screen: 'list', // list or create
     contacts: []
   }
 
@@ -23,7 +25,7 @@ class App extends Component {
       contacts: state.contacts.filter((c) => c.id !== contact.id)
     }))
 
-    //Remove contados dos dados externos
+    //Remove contados dos dados externos;
     ContactsAPI.remove(contact)
   }
 
@@ -31,9 +33,19 @@ class App extends Component {
     render() {
       return (
         <div>
-          <ListContacts
-          onDeleteContact={this.removeContact}
-          contacts={this.state.contacts} />
+          {this.state.screen === 'list' && (
+            <ListContacts
+            onDeleteContact={this.removeContact}
+            contacts={this.state.contacts}
+            onNavigate={() => {
+              this.setState({ screen: 'create'})
+            }}
+            />
+          )}
+
+          {this.state.screen === 'create' && (
+              <CreateContact/>
+          )}
         </div>
       )
     }
